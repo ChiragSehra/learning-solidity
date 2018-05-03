@@ -1,7 +1,11 @@
 pragma solidity ^0.4.0;
 
+interface Regulator{
+    function checkValue(uint amount) returns(bool);
+    function loan() returns(bool);
+}
 
-contract Bank{
+contract Bank is Regulator{
     // specifiers in solidity are :public, private and internal(like protected)
     uint private value;
     
@@ -13,11 +17,21 @@ contract Bank{
     }
     
     function withdraw(uint amount){
+        if(checkValue(amount)){
         value -= amount;
+        }
     }
     
     function balance() returns(uint){
         return value;
+    }
+    
+    function checkValue(uint amount) returns(bool){
+        return amount>=value;
+    }
+    
+    function loan() returns(bool){
+        return value>0;
     }
     
 }
@@ -43,4 +57,5 @@ contract MyFirstContract is Bank(10){
     function getAge() returns (uint){
         return age;
     }
+    
 }
